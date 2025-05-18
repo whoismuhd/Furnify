@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Furnify - Modern Furniture & Interior Design. Discover our collection of premium furniture pieces." />
+    <meta name="keywords" content="furniture, interior design, modern furniture, home decor, luxury furniture" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Furnify - Modern Furniture & Interior Design</title>
+  </head>
+  <body>
+    <nav>
+      <div class="nav__header">
+        <div class="nav__logo">
+          <a href="#" class="logo" aria-label="Furnify Home">Furnify</a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn" aria-label="Toggle menu">
+          <i class="ri-menu-line"></i>
+        </div>
+        <ul class="nav__links" id="nav-links" role="navigation" aria-label="Main navigation">
+          <li><a href="#home" aria-current="page">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#product">Products</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav__search" id="nav-search" role="search">
+          <input type="search" placeholder="Search products..." aria-label="Search products" />
+        <span><i class="ri-search-2-line"></i></span>
+        </div>
+        <div class="nav__cart">
+          <a href="cart.html" class="cart-icon" aria-label="Shopping cart">
+            <i class="ri-shopping-cart-line"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="section__container header__container" id="home">
+      <div class="header__content">
+        <span class="header__subtitle">Welcome to Furnify</span>
+        <h1>Transform Your Space with Modern Design</h1>
+        <p>
+          Discover our curated collection of premium furniture pieces that blend elegance with functionality. 
+          Let us help you create the home of your dreams with our expertly crafted pieces.
+        </p>
+        <div class="header__btns">
+          <a href="#product" class="cta-button">Explore Collection</a>
+          <a href="#about" class="outline-button">Learn More</a>
+        </div>
+        <div class="header__stats">
+          <div class="stats__item">
+            <h4>2K+</h4>
+            <p>Premium Products</p>
+          </div>
+          <div class="stats__item">
+            <h4>8K+</h4>
+            <p>Happy Customers</p>
+          </div>
+          <div class="stats__item">
+            <h4>25+</h4>
+            <p>Awards Won</p>
+          </div>
+        </div>
+      </div>
+      <div class="header__image">
+        <div class="header__image-wrapper">
+          <img src="assets/header.jpg" alt="Modern interior design showcase" />
+          <div class="floating-card">
+            <i class="ri-award-line"></i>
+            <h4>Best Interior Design</h4>
+            <p>Excellence Award 2025</p>
+          </div>
+          <div class="floating-badge">
+            <span>Premium</span>
+            <p>Quality</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section__container deals__container">
+      <div class="deals__card">
+        <h2 class="section__header">Why Choose Furnify</h2>
+        <p>Experience the perfect blend of style, comfort, and quality in every piece</p>
+      </div>
+      <div class="deals__card">
+        <span><i class="ri-cash-line"></i></span>
+        <h4>5% Cashback</h4>
+        <p>Earn 5% cashback on every furniture purchase you make!</p>
+      </div>
+      <div class="deals__card">
+        <span><i class="ri-calendar-schedule-line"></i></span>
+        <h4>30 Day Terms</h4>
+        <p>Flexible 30-day payment terms with zero interest</p>
+      </div>
+      <div class="deals__card">
+        <span><i class="ri-money-rupee-circle-line"></i></span>
+        <h4>Best Prices</h4>
+        <p>Competitive prices on premium quality furniture</p>
+      </div>
+    </section>
+
+    <section class="section__container about__container" id="about">
+      <div class="about__header">
+        <span class="about__subtitle">Who We Are</span>
+        <h2 class="section__header">Crafting Comfort & Style Since 2025</h2>
+          <p class="section__description">
+          At Furnify, we believe that every space tells a story. Our passion lies in helping you write yours through 
+          exceptional furniture pieces that blend artistry with functionality.
+          </p>
+      </div>
+      
+      <div class="about__content">
+        <div class="about__left">
+          <div class="about__image__grid">
+            <img src="assets/about-1.jpg" alt="Modern living room setup" class="about__img__1" />
+            <img src="assets/about-2.jpg" alt="Contemporary furniture design" class="about__img__2" />
+            <img src="assets/about-3.jpg" alt="Elegant interior space" class="about__img__3" />
+          </div>
+        </div>
+        
+        <div class="about__right">
+          <div class="about__cards">
+          <div class="about__card">
+              <div class="card__icon">
+                <i class="ri-home-heart-line"></i>
+              </div>
+              <div class="card__content">
+                <h3>Our Story</h3>
+                <p>Born from a vision to transform living spaces, Furnify has grown into a community of design enthusiasts 
+                and craftsmen dedicated to creating exceptional furniture.</p>
+              </div>
+          </div>
+            
+          <div class="about__card">
+              <div class="card__icon">
+                <i class="ri-focus-2-line"></i>
+              </div>
+              <div class="card__content">
+                <h3>Our Mission</h3>
+                <p>To craft sustainable, beautiful furniture that enhances your living space while maintaining our 
+                commitment to quality, innovation, and customer satisfaction.</p>
+              </div>
+          </div>
+            
+          <div class="about__card">
+              <div class="card__icon">
+                <i class="ri-leaf-line"></i>
+              </div>
+              <div class="card__content">
+                <h3>Sustainability</h3>
+                <p>We're committed to eco-friendly practices, using responsibly sourced materials and implementing 
+                sustainable manufacturing processes.</p>
+              </div>
+          </div>
+            
+          <div class="about__card">
+              <div class="card__icon">
+                <i class="ri-customer-service-2-line"></i>
+              </div>
+              <div class="card__content">
+                <h3>Expert Support</h3>
+                <p>Our dedicated team of furniture specialists is here to help you find the perfect pieces for your 
+                space and ensure your complete satisfaction.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section__container product__container" id="product">
+      <h2 class="section__header">Featured Collection</h2>
+      <div class="product__grid">
+        <div class="product__card" data-id="1">
+          <h4>Modern Stackable Chair</h4>
+          <p>₺49.999</p>
+          <img src="assets/product-1.png" alt="Modern stackable chair" />
+          <button class="product__btn">Add to Cart</button>
+        </div>
+        <div class="product__card" data-id="2">
+          <h4>Contemporary Lamp</h4>
+          <p>₺14.999</p>
+          <img src="assets/product-2.png" alt="Contemporary lamp" />
+          <button class="product__btn">Add to Cart</button>
+        </div>
+        <div class="product__card" data-id="3">
+          <h4>Elegant Dining Chair</h4>
+          <p>₺24.999</p>
+          <img src="assets/product-3.png" alt="Elegant dining chair" />
+          <button class="product__btn">Add to Cart</button>
+        </div>
+        <div class="product__card" data-id="4">
+          <h4>Designer Table Lamp</h4>
+          <p>₺3.499</p>
+          <img src="assets/product-4.png" alt="Designer table lamp" />
+          <button class="product__btn">Add to Cart</button>
+        </div>
+        <div class="product__card" data-id="5">
+          <h4>Modern Accent Chair</h4>
+          <p>₺13.999</p>
+          <img src="assets/product-5.png" alt="Modern accent chair" />
+          <button class="product__btn">Add to Cart</button>
+        </div>
+        <div class="product__card" data-id="6">
+          <h4>Classic Wingback Chair</h4>
+          <p>₺24.999</p>
+          <img src="assets/product-6.png" alt="Classic wingback chair" />
+          <button class="product__btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="view__all">
+        <a href="products.html" class="cta-button">View All Products</a>
+      </div>
+    </section>
+
+    <section class="section__container client__container">
+      <div class="client__content">
+        <h2 class="section__header">What Our Clients Say</h2>
+        <p class="section__description">
+          Discover why our customers love Furnify's premium furniture collection and exceptional service
+        </p>
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="client__card">
+                <div class="client__header">
+                  <div class="client__icon">
+                    <i class="ri-star-fill"></i>
+                  </div>
+                  <div class="client__rating">
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                  </div>
+                </div>
+                <div class="client__text">
+                  <p>
+                    "The quality of furniture at Furnify is exceptional. Their pieces have transformed 
+                    my living space into a modern sanctuary. The attention to detail and craftsmanship 
+                    is truly remarkable."
+                  </p>
+                  <div class="client__info">
+                    <div class="client__details">
+                  <h4>Yahya</h4>
+                      <h5>Interior Designer</h5>
+                    </div>
+                    <div class="client__date">March 2025</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="client__card">
+                <div class="client__header">
+                  <div class="client__icon">
+                    <i class="ri-heart-fill"></i>
+                  </div>
+                  <div class="client__rating">
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                  </div>
+                </div>
+                <div class="client__text">
+                  <p>
+                    "As a design enthusiast, I'm always searching for unique pieces that make a statement. 
+                    Furnify's collection perfectly balances aesthetics with functionality."
+                  </p>
+                  <div class="client__info">
+                    <div class="client__details">
+                      <h4>Şahim</h4>
+                      <h5>Architect</h5>
+                    </div>
+                    <div class="client__date">March 2025</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="client__card">
+                <div class="client__header">
+                  <div class="client__icon">
+                    <i class="ri-award-fill"></i>
+                  </div>
+                  <div class="client__rating">
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                  </div>
+                </div>
+                <div class="client__text">
+                  <p>
+                    "The sustainability commitment at Furnify really stands out. Not only are their 
+                    pieces beautiful, but knowing they're responsibly sourced adds another layer of satisfaction."
+                  </p>
+                  <div class="client__info">
+                    <div class="client__details">
+                      <h4>Çagla</h4>
+                      <h5>Home Stylist</h5>
+                    </div>
+                    <div class="client__date">March 2025</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="client__card">
+                <div class="client__header">
+                  <div class="client__icon">
+                    <i class="ri-shield-check-fill"></i>
+                  </div>
+                  <div class="client__rating">
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                  </div>
+                </div>
+                <div class="client__text">
+                  <p>
+                    "Furnify has completely transformed my home office space. The modern designs 
+                    and ergonomic features make working from home a joy."
+                  </p>
+                  <div class="client__info">
+                    <div class="client__details">
+                      <h4>Roua</h4>
+                      <h5>Business Professional</h5>
+                    </div>
+                    <div class="client__date">March 2025</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="client__card">
+                <div class="client__header">
+                  <div class="client__icon">
+                    <i class="ri-customer-service-2-fill"></i>
+                  </div>
+                  <div class="client__rating">
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                    <i class="ri-star-fill"></i>
+                  </div>
+                </div>
+                <div class="client__text">
+                  <p>
+                    "What sets Furnify apart is their dedication to customer satisfaction. From selection 
+                    to delivery, every interaction was professional and pleasant."
+                  </p>
+                  <div class="client__info">
+                    <div class="client__details">
+                      <h4>Suha</h4>
+                      <h5>Real Estate Agent</h5>
+                    </div>
+                    <div class="client__date">March 2025</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer" id="contact">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <div class="footer__logo">
+            <a href="#" class="logo">Furnify</a>
+          </div>
+          <p>
+            Transform your living spaces with furniture that blends elegance and practicality seamlessly.
+          </p>
+          <ul class="footer__socials">
+            <li>
+              <a href="#" aria-label="Facebook"><i class="ri-facebook-fill"></i></a>
+            </li>
+            <li>
+              <a href="#" aria-label="Twitter"><i class="ri-twitter-fill"></i></a>
+            </li>
+            <li>
+              <a href="#" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+            </li>
+            <li>
+              <a href="#" aria-label="Pinterest"><i class="ri-pinterest-fill"></i></a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Services</h4>
+          <ul class="footer__links">
+            <li><a href="#" class="contact-link">Contact Us</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Help Center</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Resources</h4>
+          <ul class="footer__links">
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Contact Support</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Support</h4>
+          <ul class="footer__links">
+            <li><a href="#" class="contact-link">Contact</a></li>
+            <li><a href="#">Affiliates</a></li>
+            <li><a href="#">Sitemap</a></li>
+            <li><a href="#">Cancellation Policy</a></li>
+            <li><a href="#">Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bar">
+        Copyright © 2025 Furnify. All rights reserved.
+      </div>
+    </footer>
+
+    <!-- Contact Form Popup -->
+    <div class="popup" id="contactPopup">
+      <div class="popup__content">
+        <button class="popup__close" id="closePopup">
+          <i class="ri-close-line"></i>
+        </button>
+        <h2>Contact Us</h2>
+        <p>We'd love to hear from you. Please fill out the form below.</p>
+        <form id="contactForm" class="contact__form">
+          <div class="form__group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Enter your full name">
+          </div>
+          <div class="form__group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="Enter your email">
+          </div>
+          <div class="form__group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required placeholder="Enter subject">
+          </div>
+          <div class="form__group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required placeholder="Enter your message"></textarea>
+          </div>
+          <button type="submit" class="submit__btn">
+            <span>Send Message</span>
+            <i class="ri-send-plane-line"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

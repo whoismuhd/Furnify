@@ -1,0 +1,41 @@
+/* Contact Form Messages */
+.success-message,
+.error-message {
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.success-message {
+    background-color: #e6f4ea;
+    color: #1e7e34;
+    border: 1px solid #c3e6cb;
+}
+
+.error-message {
+    background-color: #fdecea;
+    color: #dc3545;
+    border: 1px solid #f5c6cb;
+}
+
+/* Loading Animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.ri-loader-4-line {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+/* Disable button styles */
+.submit__btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+} 

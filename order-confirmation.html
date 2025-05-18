@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Furnify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="confirmation-container">
+        <div class="confirmation-card">
+            <div class="confirmation-header">
+                <a href="/" class="logo">Furnify</a>
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1>Order Confirmed!</h1>
+                <p>Thank you for your purchase</p>
+            </div>
+
+            <div class="confirmation-content">
+                <div class="order-details">
+                    <h2>Order Details</h2>
+                    <div class="order-info">
+                        <div class="info-row">
+                            <span>Order ID:</span>
+                            <span id="orderId"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Order Date:</span>
+                            <span id="orderDate"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Status:</span>
+                            <span id="orderStatus"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-items">
+                    <h2>Order Items</h2>
+                    <div id="orderItems" class="items-list">
+                        <!-- Order items will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="subtotal"></span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="shipping"></span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax</span>
+                            <span id="tax"></span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="total"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shipping-details">
+                    <h2>Shipping Details</h2>
+                    <div id="shippingInfo" class="shipping-info">
+                        <!-- Shipping information will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <div class="confirmation-actions">
+                    <a href="/orders.html" class="view-orders-button">
+                        <i class="fas fa-list"></i>
+                        <span>View All Orders</span>
+                    </a>
+                    <a href="/" class="continue-shopping-button">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Continue Shopping</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { authService } from './js/services/authService.js';
+        import { cartService } from './js/services/cartService.js';
+
+        // Check if user is authenticated
+        if (!authService.isAuthenticated()) {
+            window.location.href = '/login.html';
+        }
+
+        // Get order ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+
+        if (!orderId) {
+            window.location.href = '/';
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+
+        // Update order details
+        async function updateOrderDetails() {
+            try {
+                const order = await cartService.getOrder(orderId);
+
+                // Update order information
+                document.getElementById('orderId').textContent = order.orderId;
+                document.getElementById('orderDate').textContent = formatDate(order.createdAt);
+                document.getElementById('orderStatus').textContent = order.status;
+
+                // Update order items
+                const orderItemsContainer = document.getElementById('orderItems');
+                orderItemsContainer.innerHTML = order.items.map(item => `
+                    <div class="order-item">
+                        <div class="item-image">
+                            <img src="${item.product.image}" alt="${item.product.name}">
+                        </div>
+                        <div class="item-details">
+                            <h4>${item.product.name}</h4>
+                            <p>Quantity: ${item.quantity}</p>
+                            <p>${formatCurrency(item.product.price * item.quantity)}</p>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Update order summary
+                document.getElementById('subtotal').textContent = formatCurrency(order.subtotal);
+                document.getElementById('shipping').textContent = formatCurrency(order.shipping);
+                document.getElementById('tax').textContent = formatCurrency(order.tax);
+                document.getElementById('total').textContent = formatCurrency(order.total);
+
+                // Update shipping information
+                const shippingInfoContainer = document.getElementById('shippingInfo');
+                shippingInfoContainer.innerHTML = `
+                    <div class="info-row">
+                        <span>Name:</span>
+                        <span>${order.shipping.fullName}</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Email:</span>
+                        <span>${order.shipping.email}</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Phone:</span>
+                        <span>${order.shipping.phone}</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Address:</span>
+                        <span>${order.shipping.address}</span>
+                    </div>
+                    <div class="info-row">
+                        <span>City:</span>
+                        <span>${order.shipping.city}</span>
+                    </div>
+                    <div class="info-row">
+                        <span>State:</span>
+                        <span>${order.shipping.state}</span>
+                    </div>
+                    <div class="info-row">
+                        <span>ZIP Code:</span>
+                        <span>${order.shipping.zipCode}</span>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Error updating order details:', error);
+                window.location.href = '/orders.html';
+            }
+        }
+
+        // Initialize order details
+        updateOrderDetails();
+    </script>
+</body>
+</html> 

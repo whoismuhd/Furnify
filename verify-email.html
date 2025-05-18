@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - Furnify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="/" class="logo">Furnify</a>
+                <h1>Verify Your Email</h1>
+                <p>Please check your email to verify your account</p>
+            </div>
+
+            <div class="verification-content">
+                <div class="verification-icon">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+
+                <div class="verification-message">
+                    <p>We've sent a verification link to your email address.</p>
+                    <p>Please check your inbox and click the link to verify your account.</p>
+                    <p>If you don't see the email, please check your spam folder.</p>
+                </div>
+
+                <div class="verification-actions">
+                    <button id="resendButton" class="auth-button">
+                        <i class="fas fa-redo"></i>
+                        <span>Resend Verification Email</span>
+                    </button>
+
+                    <div class="verification-timer">
+                        <p>You can request a new verification email in <span id="countdown">60</span> seconds</p>
+                    </div>
+                </div>
+
+                <div class="auth-footer">
+                    <p>Already verified? <a href="/login.html">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { authService } from './js/services/authService.js';
+
+        // Elements
+        const resendButton = document.getElementById('resendButton');
+        const countdownElement = document.getElementById('countdown');
+        let countdown = 60;
+        let timer = null;
+
+        // Get email from URL or localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email') || localStorage.getItem('pendingVerificationEmail');
+
+        // Redirect if no email
+        if (!email) {
+            window.location.href = '/register.html';
+        }
+
+        // Start countdown
+        function startCountdown() {
+            countdown = 60;
+            resendButton.disabled = true;
+            
+            if (timer) {
+                clearInterval(timer);
+            }
+
+            timer = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    resendButton.disabled = false;
+                }
+            }, 1000);
+        }
+
+        // Handle resend button click
+        resendButton.addEventListener('click', async () => {
+            try {
+                resendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                resendButton.disabled = true;
+
+                await authService.resendVerificationEmail(email);
+
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'success-message';
+                successMessage.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    <p>Verification email has been resent!</p>
+                    <p>Please check your inbox.</p>
+                `;
+                document.querySelector('.verification-content').insertBefore(
+                    successMessage,
+                    document.querySelector('.verification-actions')
+                );
+
+                // Start countdown
+                startCountdown();
+
+                // Reset button state
+                resendButton.innerHTML = `
+                    <i class="fas fa-redo"></i>
+                    <span>Resend Verification Email</span>
+                `;
+
+            } catch (error) {
+                // Show error message
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'error-message';
+                errorMessage.textContent = error.message;
+                document.querySelector('.verification-content').insertBefore(
+                    errorMessage,
+                    document.querySelector('.verification-actions')
+                );
+
+                // Reset button state
+                resendButton.innerHTML = `
+                    <i class="fas fa-redo"></i>
+                    <span>Resend Verification Email</span>
+                `;
+                resendButton.disabled = false;
+            }
+        });
+
+        // Start initial countdown
+        startCountdown();
+
+        // Check if user is already logged in
+        if (authService.isAuthenticated()) {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html> 

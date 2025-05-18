@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Furnify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="orders-container">
+        <div class="orders-header">
+            <a href="/" class="logo">Furnify</a>
+            <h1>My Orders</h1>
+            <p>Track and manage your orders</p>
+        </div>
+
+        <div class="orders-content">
+            <div class="orders-filters">
+                <div class="filter-group">
+                    <label for="statusFilter">Status:</label>
+                    <select id="statusFilter">
+                        <option value="all">All Orders</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dateFilter">Date Range:</label>
+                    <select id="dateFilter">
+                        <option value="all">All Time</option>
+                        <option value="last30">Last 30 Days</option>
+                        <option value="last90">Last 90 Days</option>
+                        <option value="lastYear">Last Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="ordersList" class="orders-list">
+                <!-- Orders will be dynamically inserted here -->
+            </div>
+
+            <div id="noOrders" class="no-orders" style="display: none;">
+                <i class="fas fa-box-open"></i>
+                <h2>No Orders Found</h2>
+                <p>You haven't placed any orders yet.</p>
+                <a href="/" class="continue-shopping-button">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Start Shopping</span>
+                </a>
+            </div>
+
+            <div id="loadingOrders" class="loading-orders">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading orders...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { authService } from './js/services/authService.js';
+        import { cartService } from './js/services/cartService.js';
+
+        // Check if user is authenticated
+        if (!authService.isAuthenticated()) {
+            window.location.href = '/login.html';
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+
+        // Get status badge class
+        function getStatusBadgeClass(status) {
+            const statusClasses = {
+                pending: 'status-pending',
+                processing: 'status-processing',
+                shipped: 'status-shipped',
+                delivered: 'status-delivered',
+                cancelled: 'status-cancelled'
+            };
+            return statusClasses[status.toLowerCase()] || 'status-pending';
+        }
+
+        // Create order card HTML
+        function createOrderCard(order) {
+            return `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <h3>Order #${order.orderId}</h3>
+                            <p>Placed on ${formatDate(order.createdAt)}</p>
+                        </div>
+                        <div class="order-status">
+                            <span class="status-badge ${getStatusBadgeClass(order.status)}">
+                                ${order.status}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="order-items">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <div class="item-image">
+                                    <img src="${item.product.image}" alt="${item.product.name}">
+                                </div>
+                                <div class="item-details">
+                                    <h4>${item.product.name}</h4>
+                                    <p>Quantity: ${item.quantity}</p>
+                                    <p>${formatCurrency(item.product.price * item.quantity)}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span>${formatCurrency(order.subtotal)}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span>${formatCurrency(order.shipping)}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax</span>
+                            <span>${formatCurrency(order.tax)}</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span>${formatCurrency(order.total)}</span>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <a href="/order-confirmation.html?id=${order.orderId}" class="view-order-button">
+                            <i class="fas fa-eye"></i>
+                            <span>View Details</span>
+                        </a>
+                        ${order.status === 'pending' ? `
+                            <button class="cancel-order-button" data-order-id="${order.orderId}">
+                                <i class="fas fa-times"></i>
+                                <span>Cancel Order</span>
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load orders
+        async function loadOrders() {
+            const ordersList = document.getElementById('ordersList');
+            const noOrders = document.getElementById('noOrders');
+            const loadingOrders = document.getElementById('loadingOrders');
+
+            try {
+                loadingOrders.style.display = 'flex';
+                ordersList.innerHTML = '';
+                noOrders.style.display = 'none';
+
+                const orders = await cartService.getUserOrders();
+                
+                if (orders.length === 0) {
+                    loadingOrders.style.display = 'none';
+                    noOrders.style.display = 'flex';
+                    return;
+                }
+
+                ordersList.innerHTML = orders.map(createOrderCard).join('');
+                loadingOrders.style.display = 'none';
+
+                // Add event listeners to cancel buttons
+                document.querySelectorAll('.cancel-order-button').forEach(button => {
+                    button.addEventListener('click', async (e) => {
+                        const orderId = e.currentTarget.dataset.orderId;
+                        if (confirm('Are you sure you want to cancel this order?')) {
+                            try {
+                                await cartService.cancelOrder(orderId);
+                                loadOrders(); // Reload orders
+                            } catch (error) {
+                                console.error('Error cancelling order:', error);
+                                alert('Failed to cancel order. Please try again.');
+                            }
+                        }
+                    });
+                });
+
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                loadingOrders.style.display = 'none';
+                alert('Failed to load orders. Please try again.');
+            }
+        }
+
+        // Filter orders
+        function filterOrders() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            const orders = document.querySelectorAll('.order-card');
+
+            orders.forEach(order => {
+                const status = order.querySelector('.status-badge').textContent.toLowerCase();
+                const orderDate = new Date(order.querySelector('.order-info p').textContent.split('Placed on ')[1]);
+                const today = new Date();
+
+                let showByStatus = statusFilter === 'all' || status === statusFilter;
+                let showByDate = true;
+
+                if (dateFilter !== 'all') {
+                    const daysDiff = Math.floor((today - orderDate) / (1000 * 60 * 60 * 24));
+                    switch (dateFilter) {
+                        case 'last30':
+                            showByDate = daysDiff <= 30;
+                            break;
+                        case 'last90':
+                            showByDate = daysDiff <= 90;
+                            break;
+                        case 'lastYear':
+                            showByDate = daysDiff <= 365;
+                            break;
+                    }
+                }
+
+                order.style.display = showByStatus && showByDate ? 'block' : 'none';
+            });
+
+            // Show no orders message if no orders are visible
+            const visibleOrders = document.querySelectorAll('.order-card[style="display: block;"]');
+            const noOrders = document.getElementById('noOrders');
+            noOrders.style.display = visibleOrders.length === 0 ? 'flex' : 'none';
+        }
+
+        // Add event listeners to filters
+        document.getElementById('statusFilter').addEventListener('change', filterOrders);
+        document.getElementById('dateFilter').addEventListener('change', filterOrders);
+
+        // Initialize orders
+        loadOrders();
+    </script>
+</body>
+</html> 
